@@ -7,6 +7,8 @@ var http = require('http'),
     // This is our React component, shared by server and browser thanks to browserify
     App = React.createFactory(require('./App'))
 
+	  var Rollbar = require("rollbar");
+	  var rollbar = new Rollbar("*** Replace Rollbar Server-Side Access Token ***");
 
 // Just create a plain old HTTP server that responds to two endpoints ('/' and
 // '/bundle.js') This would obviously work similarly with any higher level
@@ -17,7 +19,7 @@ http.createServer(function(req, res) {
   // server-side rendered React component(s), as well as the script tags
   // pointing to the client-side code
   if (req.url == '/') {
-
+    rollbar.info("Request on '/'");
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
     // `props` represents the data to be passed in to the React component for
@@ -30,8 +32,6 @@ http.createServer(function(req, res) {
       items: [
         'Item 0',
         'Item 1',
-        'Item </scRIpt>\u2028',
-        'Item <!--inject!-->\u2029',
       ]
     }
 
@@ -93,6 +93,7 @@ http.createServer(function(req, res) {
   } else {
     res.statusCode = 404
     res.end()
+    rollbar.error("Page not found [" + req.url + "]")
   }
 
 // The http server listens on port 3000

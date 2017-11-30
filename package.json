@@ -16,6 +16,7 @@
     "browserify": "^14.0.0",
     "literalify": "^0.4.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "rollbar": "^2.3.1"
   }
 }
